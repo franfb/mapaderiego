@@ -6,7 +6,11 @@ import ncsa.hdf.object.*;
 import ncsa.hdf.object.h4.*;
 
 public class HdfLoad {
-	public void printAttribute(String fname, Integer member) throws Exception {
+	private FileFormat testFile;
+	public static final int LstDay1km = 0;
+	public static final int LstNight1km = 4;
+	
+	public void openFile(String fname) throws Exception {
 		// retrieve an instance of H4File
 		FileFormat fileFormat = FileFormat
 				.getFileFormat(FileFormat.FILE_TYPE_HDF4);
@@ -17,19 +21,30 @@ public class HdfLoad {
 		}
 
 		// open the file with read-only access
-		FileFormat testFile = fileFormat.open(fname, FileFormat.READ);
+		testFile = fileFormat.open(fname, FileFormat.READ);
 
 		if (testFile == null) {
 			System.err.println("Failed to open file: " + fname);
 			return;
 		}
+		
+		testFile.open();
+	}
+	
+	public void closeFile() throws Exception{
+		if (testFile != null) testFile.close();
+	}
+	
+	public void printAttribute(Integer member) throws Exception {
+		if (testFile == null) {
+			System.err.println("The file " + testFile.getName() + " is not opened.");
+			return;
+		}
 
 		// open the file and retrieve the file structure
-		testFile.open();
 		Group root = (Group) ((javax.swing.tree.DefaultMutableTreeNode) testFile
 				.getRootNode()).getUserObject();
 
-		// retrieve the dataset "2D 32-bit integer 20x10"
 		System.out.println("Atributos del grupo raíz");
 		printAttributeList(root.getMetadata());
 		
@@ -42,16 +57,8 @@ public class HdfLoad {
 		printAttributeList(group0.getMetadata());
 		
 		Dataset dataset = (Dataset) group1.getMemberList().get(member);
-
-		// read the attribute into memory
 		System.out.println("Atributos del dataset LST_Day_1km");
 		printAttributeList(dataset.getMetadata());
-		
-
-		// printGroup(root, "");
-
-		// close file resource
-		testFile.close();
 	}
 	
 	public void printAttributeList(List attrList) {
@@ -62,6 +69,23 @@ public class HdfLoad {
 			System.out.println(attr.toString() + " = ");
 			System.out.println(attr.toString(" ---- "));
 		}
+	}
+	
+	public void readDataset(LstData data, int datasetNumber) throws Exception {
+		if (testFile == null) {
+			System.err.println("The file " + testFile.getName() + " is not opened.");
+			return;
+		}
+		
+		// retrieve the file structure
+		Group group = (Group) ((javax.swing.tree.DefaultMutableTreeNode) testFile
+				.getRootNode()).getUserObject();
+		group = (Group) group.getMemberList().get(0);
+		group = (Group) group.getMemberList().get(0);
+		
+		Dataset dataset = (Dataset) group.getMemberList().get(datasetNumber);
+		short[] data2 = (short[])dataset.read();
+		data.setData(data2);
 	}
 
 	public void printFileStructure(String fname) throws Exception {

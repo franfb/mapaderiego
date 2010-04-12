@@ -75,6 +75,39 @@ public class LstData {
 	public double[] getLon() {
 		return lon;
 	}
+	
+	public void getInterpolatedTemperature(double lat, double lon) {
+		int lat1, lat2;
+		int y = 0;
+		while ((y < dimY) && (lat <= this.lat[y * dimY])) {
+			y++;
+		}
+		lat1 = y - 1;
+		lat2 = y;
+
+		System.out.println("Latitudes:");
+		System.out.println("lat1 = " + this.lat[lat1 * dimY]);
+		System.out.println("lat = " + lat);
+		System.out.println("lat2 = " + this.lat[lat2 * dimY]);
+		
+		int lon1, lon2;
+		int x = dimX - 1;
+		while ((x >= 0) && (lon <= this.lon[lat1 * dimY + x])) {
+			x--;
+		}
+		lon1 = x + 1;
+		lon2 = x;
+		
+
+		System.out.println("Longitudes:");
+		System.out.println("lon1 = " + this.lon[lat1 * dimY + lon1]);
+		System.out.println("lon = " + lon);
+		System.out.println("lon2 = " + this.lon[lat1 * dimY + lon2]);
+		System.out.println("Temperatura lat1,lon1 = " + (data[lat1 * dimY + lon1] - 273.15));
+		System.out.println("Temperatura lat1,lon2 = " + (data[lat1 * dimY + lon2] - 273.15));
+		System.out.println("Temperatura lat2,lon1 = " + (data[lat2 * dimY + lon1] - 273.15));
+		System.out.println("Temperatura lat2,lon2 = " + (data[lat2 * dimY + lon2] - 273.15));
+	}
 
 	public void show(boolean showZeros) {
 		if (data != null) {

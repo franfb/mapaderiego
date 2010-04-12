@@ -10,5 +10,6 @@ public class LstConstants {
 	public static final double vrlon = -1111950.519767;
 	public static final double vulat = 3335851.559300;
 	public static final double vllat = 2223901.039533;
-	public static final double earthRadius = 6371007.181;
+//	public static final double earthRadius = 6371007.181;
+	public static final double earthRadius = 6371009.00;
 }

@@ -3,7 +3,6 @@ package datos;
 import java.util.List;
 
 import ncsa.hdf.object.*;
-import ncsa.hdf.object.h4.*;
 
 public class HdfLoad {
 	private FileFormat testFile;

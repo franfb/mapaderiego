@@ -1,9 +1,7 @@
 package datos;
 
 public class Principal {
-	private static final int dimX = 1200;
-	private static final int dimY = 1200;
-	private static final double scaleFactor = 0.02;
+
 	/**
 	 * @param args
 	 */
@@ -12,14 +10,24 @@ public class Principal {
 		HdfLoad loader = new HdfLoad();
 		loader.openFile("C:\\Documents and Settings\\Fran_Javi\\Escritorio\\PFC\\Datos\\Aqua11A1\\MYD11A1.A2009001.h16v06.005.2009013150259.hdf");
 		//loader.printFileStructure("C:\\Documents and Settings\\Fran_Javi\\Escritorio\\PFC\\Datos\\Aqua11A1\\MYD11A1.A2009001.h16v06.005.2009013150259.hdf");
-//		loader.printAttribute(loader.LstDay1km);
-		LstData dataDay = new LstData(dimX, dimY, scaleFactor);
-		loader.readDataset(dataDay, loader.LstDay1km);
-		dataDay.show(false);
+		loader.printAttribute(HdfLoad.LstDay1km);
+		LstData dataDay = new LstData(LstConstants.dimX, LstConstants.dimY, LstConstants.scaleFactor);
+		loader.readDataset(dataDay, HdfLoad.LstDay1km);
+		dataDay.setCoordinates();
+		System.out.println("Coordenada[0,0] = (" + dataDay.getLat()[0] + ", " + dataDay.getLon()[0] + ")");
+		System.out.println("Coordenada[0,1199] = (" + dataDay.getLat()[1199] + ", " + dataDay.getLon()[1199] + ")");
+		System.out.println("Coordenada[1199,0] = (" + dataDay.getLat()[1199 * 1200] + ", " + dataDay.getLon()[1199 * 1200] + ")");
+		System.out.println("Coordenada[1199,1199] = (" + dataDay.getLat()[1199 * 1200 + 1199] + ", " + dataDay.getLon()[1199 * 1200 + 1199] + ")");
+//		dataDay.show(false);
 		
-		LstData dataNight = new LstData(dimX, dimY, scaleFactor);
-		loader.readDataset(dataNight, loader.LstNight1km);
-		dataNight.show(false);
+		LstData dataNight = new LstData(LstConstants.dimX, LstConstants.dimY, LstConstants.scaleFactor);
+		loader.readDataset(dataNight, HdfLoad.LstNight1km);
+		dataNight.setCoordinates();
+		System.out.println("Coordenada[0,0] = (" + dataNight.getLat()[0] + ", " + dataNight.getLon()[0] + ")");
+		System.out.println("Coordenada[0,1199] = (" + dataNight.getLat()[1199] + ", " + dataNight.getLon()[1199] + ")");
+		System.out.println("Coordenada[1199,0] = (" + dataNight.getLat()[1199 * 1200] + ", " + dataNight.getLon()[1199 * 1200] + ")");
+		System.out.println("Coordenada[1199,1199] = (" + dataNight.getLat()[1199 * 1200 + 1199] + ", " + dataNight.getLon()[1199 * 1200 + 1199] + ")");
+//		dataNight.show(false);
 		
 		loader.closeFile();
 	}

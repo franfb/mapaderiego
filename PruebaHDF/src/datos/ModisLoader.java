@@ -4,10 +4,10 @@ import java.util.List;
 
 import ncsa.hdf.object.*;
 
-public class HdfLoad {
+public class ModisLoader {
 	private FileFormat testFile;
-	public static final int LstDay1km = 0;
-	public static final int LstNight1km = 4;
+	public static final int LST_DAY_1KM = 0;
+	public static final int LST_NIGHT_1KM = 4;
 	
 	public void openFile(String fname) throws Exception {
 		// retrieve an instance of H4File
@@ -32,6 +32,7 @@ public class HdfLoad {
 	
 	public void closeFile() throws Exception{
 		if (testFile != null) testFile.close();
+		testFile = null;
 	}
 	
 	public void printAttribute(Integer member) throws Exception {

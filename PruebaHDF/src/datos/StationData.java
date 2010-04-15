@@ -46,9 +46,10 @@ public class StationData {
 				tmax = new Double(tokens.nextToken());
 				tmin = new Double(tokens.nextToken());
 				
+				// Puede que falten datos entre dos días no sucesivos
 				if ((i + 1) != diaJuliano) {
 					for (int j = i; j < diaJuliano; j++) {
-						this.tmin[j] = this.tmed[j] = this.tmax[j] = 999.0;
+						this.tmin[j] = this.tmed[j] = this.tmax[j] = StationConstants.NO_TEMPERATURE;
 					}
 					i = diaJuliano - 1;
 				}
@@ -58,9 +59,10 @@ public class StationData {
 				this.tmax[i] = tmax;
 				i++;
 			}
+			// Algunas estaciones no tienen datos hasta el final del año
 			if (i < maxDays) {
 				for (int j = i; j < maxDays; j++) {
-					this.tmin[j] = this.tmed[j] = this.tmax[j] = 999.0;
+					this.tmin[j] = this.tmed[j] = this.tmax[j] = StationConstants.NO_TEMPERATURE;
 				}
 			}
 		}
@@ -86,5 +88,37 @@ public class StationData {
 		for (int i = 0; i < maxDays; i++) {
 			System.out.println("\t" + tmin[i] + " " + tmed[i] + " " + tmax[i]);
 		}
+	}
+
+	public double getLat() {
+		return lat;
+	}
+
+	public double getLon() {
+		return lon;
+	}
+
+	public int getAlt() {
+		return alt;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public double[] getTmin() {
+		return tmin;
+	}
+
+	public double[] getTmed() {
+		return tmed;
+	}
+
+	public double[] getTmax() {
+		return tmax;
 	}
 }

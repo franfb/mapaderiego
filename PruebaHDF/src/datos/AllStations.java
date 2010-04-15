@@ -9,9 +9,11 @@ import java.util.StringTokenizer;
 
 public class AllStations {
 	private StationData[] stations;
+	private String year;
 	private int maxStations = 45;
+	private int numStations;
 
-	public void readStationsData(String stationsFile) {
+	public void readStationsData(String stationsFile, String year) {
 		File archivo = null;
 		FileReader fr = null;
 		BufferedReader br = null;
@@ -22,6 +24,7 @@ public class AllStations {
 			String linea, nombre, tipo;
 			double lon, lat;
 			int alt;
+			this.year = year;
 			stations = new StationData[maxStations];
 			int i = 0;
 			while ((linea = br.readLine()) != null) {
@@ -33,10 +36,11 @@ public class AllStations {
 				alt = new Integer(tokens.nextToken());
 				stations[i] = new StationData();
 				// Con el \\..\\ eliminamos el nombre del archivo al final de la ruta que devuelve getAbsolutePath()
-				stations[i].setData(nombre, lat, lon, alt, "2009", archivo.getAbsolutePath() + "\\..\\");
+				stations[i].setData(nombre, lat, lon, alt, year, archivo.getAbsolutePath() + "\\..\\");
 				stations[i].show();
 				i++;
 			}
+			numStations = i;
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -50,5 +54,17 @@ public class AllStations {
 					e.printStackTrace();
 				}
 		}
+	}
+
+	public StationData[] getStations() {
+		return stations;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public int getNumStations() {
+		return numStations;
 	}
 }

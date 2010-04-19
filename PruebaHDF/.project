@@ -14,21 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src/H4AttributeCreate.java</name>
-			<type>1</type>
-			<location>C:/Documents and Settings/Fran_Javi/Escritorio/PFC/HDFSamples/H4AttributeCreate.java</location>
-		</link>
-		<link>
-			<name>src/H4DatasetRead.java</name>
-			<type>1</type>
-			<location>C:/Documents and Settings/Fran_Javi/Escritorio/PFC/HDFSamples/H4DatasetRead.java</location>
-		</link>
-		<link>
-			<name>src/H4FileStructure.java</name>
-			<type>1</type>
-			<location>C:/Documents and Settings/Fran_Javi/Escritorio/PFC/HDFSamples/H4FileStructure.java</location>
-		</link>
-	</linkedResources>
 </projectDescription>

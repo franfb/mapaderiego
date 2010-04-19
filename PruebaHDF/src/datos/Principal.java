@@ -8,10 +8,11 @@ public class Principal {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args){
 		// TODO Auto-generated method stub
 		AllLstData lstData = new AllLstData();
-		lstData.readHdfDir("C:\\Documents and Settings\\Fran_Javi\\Escritorio\\PFC\\Datos\\Aqua11A1");
+		lstData.readHdfDir("D:\\etsii\\pfc\\datos\\Aqua11A1");
+		
 //		ModisLoader loader = new ModisLoader();
 //		loader.openFile(dir.getAbsolutePath() + "\\" + children[0]);
 //		//loader.printFileStructure("C:\\Documents and Settings\\Fran_Javi\\Escritorio\\PFC\\Datos\\Aqua11A1\\MYD11A1.A2009001.h16v06.005.2009013150259.hdf");

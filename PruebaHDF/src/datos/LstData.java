@@ -16,8 +16,8 @@ public class LstData {
 		this.dimY = dimY;
 		this.scaleFactor = scaleFactor;
 		data = new double[dimX * dimY];
-		lat = new double[dimX * dimY];
-		lon = new double[dimX * dimY];
+//		lat = new double[dimX * dimY];
+//		lon = new double[dimX * dimY];
 //		try {
 //			Thread.sleep(5000);
 //		} catch (InterruptedException e) {
@@ -49,7 +49,8 @@ public class LstData {
 		return data;
 	}
 	
-	public void setCoordinates() {
+	public double[] getLatLngByPos(int x, int y) {
+		double[] latLng = new double[2];
 		double delta = LstConstants.DELTA;
 		double vllat = LstConstants.VLLAT;
 		double vulat = LstConstants.VULAT;
@@ -58,12 +59,22 @@ public class LstData {
 		double r = LstConstants.EARTH_RADIUS;
 		double pi = Math.PI;
 		double la, lo;
+		
+		la = y * delta * (vllat - vulat) + vulat;
+		latLng[0] = (la / r) * (180.0 / pi);
+		lo = x * delta * (vrlon - vllon) + vllon;
+		latLng[1] = (lo / (r * Math.cos(la / r))) * (180.0 / pi);
+		
+		return latLng;
+	}
+	
+	public void setCoordinates() {
+		double[] latLng = new double[2];
 		for (int y = 0; y < dimY; y++) {
 			for (int x = 0; x < dimX; x++) {
-				la = y * delta * (vllat - vulat) + vulat;
-				lat[y * dimY + x] = (la / r) * (180.0 / pi);
-				lo = x * delta * (vrlon - vllon) + vllon;
-				lon[y * dimY + x] = (lo / (r * Math.cos(la / r))) * (180.0 / pi);
+				latLng = getLatLngByPos(x, y);
+				lat[y * dimY + x] = latLng[0];
+				lon[y * dimY + x] = latLng[1];
 			}
 		}
 	}
@@ -74,6 +85,77 @@ public class LstData {
 
 	public double[] getLon() {
 		return lon;
+	}
+	
+	public double getInterpTemp(double lat, double lon) {
+		// Buscamos la posición del dataset más próxima a la lat/lon solicitada
+		double la = lat * (Math.PI / 180.0) * LstConstants.EARTH_RADIUS;
+		double y_interp = (la - LstConstants.VULAT)
+				/ (LstConstants.DELTA * (LstConstants.VLLAT - LstConstants.VULAT));
+		double lo = (lon * (Math.PI / 180.0))
+				* (LstConstants.EARTH_RADIUS * Math
+						.cos(lat * (Math.PI / 180.0)));
+		double x_interp = (lo - LstConstants.VLLON)
+				/ (LstConstants.DELTA * (LstConstants.VRLON - LstConstants.VLLON));
+		
+		System.out.println("Y_interp = " + y_interp);
+		System.out.println("X_interp = " + x_interp);
+		
+		int x_izq = (int) x_interp;
+		int x_der = x_izq + 1;
+		int y_sup = (int) y_interp;
+		int y_inf = y_sup + 1;
+		
+		System.out.println("x_izq = " + x_izq);
+		System.out.println("x_der = " + x_der);
+		System.out.println("y_inf = " + y_inf);
+		System.out.println("y_sup = " + y_sup);
+		
+		// Calculamos las posiciones a interpolar en un cuadrado de lado = 1
+		x_interp = x_interp - x_izq;
+		y_interp = y_inf - y_interp;
+		
+		System.out.println("Y_interp = " + y_interp);
+		System.out.println("X_interp = " + x_interp);
+		
+		double temp_interp = 0.0;
+		// Interpolamos la temperatura a partir de las parejas (x,y) si todas las temperaturas no son 0
+		if ((data[y_inf * dimY + x_izq] != 0.0) && (data[y_inf * dimY + x_der] != 0.0) && 
+				(data[y_sup * dimY + x_izq] != 0.0) && (data[y_sup * dimY + x_der] != 0.0)) {
+			
+			temp_interp = bilinear(0, 1, x_interp, 0, 1, y_interp, 
+					data[y_inf * dimY + x_izq], data[y_inf * dimY + x_der], 
+					data[y_sup * dimY + x_izq], data[y_sup * dimY + x_der]);
+
+			System.out.println("Punto a interpolar:");
+			System.out.println("X = " + x_interp);
+			System.out.println("Y = " + y_interp);
+			System.out.println("x_izq = " + x_izq);
+			System.out.println("x_der = " + x_der);
+			System.out.println("y_inf = " + y_inf);
+			System.out.println("y_sup = " + y_sup);
+
+			System.out.println("Latitudes:");
+			System.out.println("lat1 = " + getLatLngByPos(x_izq, y_sup)[0]);
+			System.out.println("lat = " + lat);
+			System.out.println("lat2 = " + getLatLngByPos(x_izq, y_inf)[0]);
+			
+			System.out.println("Longitudes:");
+			System.out.println("lon1 = " + getLatLngByPos(x_der, y_sup)[1]);
+			System.out.println("lon = " + lon);
+			System.out.println("lon2 = " + getLatLngByPos(x_izq, y_sup)[1]);
+			System.out.println("Temperatura y_sup,x_der = "
+					+ (data[y_sup * dimY + x_der] - 273.15));
+			System.out.println("Temperatura y_sup,x_izq = "
+					+ (data[y_sup * dimY + x_izq] - 273.15));
+			System.out.println("Temperatura y_inf,x_der = "
+					+ (data[y_inf * dimY + x_der] - 273.15));
+			System.out.println("Temperatura y_inf,x_izq = "
+					+ (data[y_inf * dimY + x_izq] - 273.15));
+			System.out.println("Temperatura interpolada = "
+					+ (temp_interp - 273.15));
+		}
+		return temp_interp;
 	}
 	
 	public double getInterpolatedTemperature(double lat, double lon) {
@@ -122,6 +204,10 @@ public class LstData {
 			System.out.println("Punto a interpolar:");
 			System.out.println("X = " + x_interp);
 			System.out.println("Y = " + y_interp);
+			System.out.println("x_izq = " + x_izq);
+			System.out.println("x_der = " + x_der);
+			System.out.println("y_inf = " + y_inf);
+			System.out.println("y_sup = " + y_sup);
 
 			System.out.println("Longitudes:");
 			System.out.println("lon1 = " + this.lon[y_sup * dimY + x_der]);

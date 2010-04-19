@@ -11,8 +11,7 @@ public class ModisLoader {
 	
 	public void openFile(String fname) throws Exception {
 		// retrieve an instance of H4File
-		FileFormat fileFormat = FileFormat
-				.getFileFormat(FileFormat.FILE_TYPE_HDF4);
+		FileFormat fileFormat = FileFormat.getFileFormat(FileFormat.FILE_TYPE_HDF4);
 
 		if (fileFormat == null) {
 			System.err.println("Cannot find HDF4 FileFormat.");

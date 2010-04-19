@@ -31,12 +31,16 @@ public class AllLstData {
 			lstDay = new LstData[children.length];
 			lstNight = new LstData[children.length];
 			for (int i = 0; i < children.length; i++) {
+//			for (int i = 0; i < 1; i++) {
 				System.out.println("Leyendo " + children[i]);
 				try {
 					loader.openFile(dir.getAbsolutePath() + "\\" + children[i]);
 					lstDay[i] = readDataset(ModisLoader.LST_DAY_1KM);
 					lstNight[i] = readDataset(ModisLoader.LST_NIGHT_1KM);
 					loader.closeFile();
+//					lstDay[i].getInterpolatedTemperature(28.2230644372507, -16.75267301976);
+//					lstDay[i].getInterpTemp(28.2230644372507, -16.75267301976);
+//					System.in.read();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -49,7 +53,7 @@ public class AllLstData {
 		LstData data = new LstData(LstConstants.DIM_X, LstConstants.DIM_Y,
 				LstConstants.SCALE_FACTOR);
 		loader.readDataset(data, datasetType);
-		data.setCoordinates();
+//		data.setCoordinates();
 		return data;
 	}
 }

@@ -37,7 +37,7 @@ public class AllStations {
 				stations[i] = new StationData();
 				// Con el \\..\\ eliminamos el nombre del archivo al final de la ruta que devuelve getAbsolutePath()
 				stations[i].setData(nombre, lat, lon, alt, year, archivo.getAbsolutePath() + "\\..\\");
-				stations[i].show();
+//				stations[i].show();
 				i++;
 			}
 			numStations = i;

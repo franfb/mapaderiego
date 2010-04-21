@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="HdfLibs/jhdf.jar"/>
 	<classpathentry kind="lib" path="HdfLibs/jhdf4obj.jar"/>
 	<classpathentry kind="lib" path="HdfLibs/jhdfobj.jar"/>
+	<classpathentry kind="con" path="org.dyno.visual.swing.VS_LIBRARY/layoutext"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

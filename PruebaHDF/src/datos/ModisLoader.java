@@ -72,10 +72,10 @@ public class ModisLoader {
 	
 	public void readDataset(LstData data, int datasetNumber) throws Exception {
 		if (testFile == null) {
-			System.err.println("The file " + testFile.getName() + " is not opened.");
+			System.err.println("The file is not opened.");
 			return;
 		}
-		
+
 		// retrieve the file structure
 		Group group = (Group) ((javax.swing.tree.DefaultMutableTreeNode) testFile
 				.getRootNode()).getUserObject();

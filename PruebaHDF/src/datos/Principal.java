@@ -2,6 +2,8 @@ package datos;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 public class Principal {
 
@@ -11,7 +13,7 @@ public class Principal {
 	public static void main(String[] args){
 		// TODO Auto-generated method stub
 		AllLstData lstData = new AllLstData();
-		lstData.readHdfDir("D:\\etsii\\pfc\\datos\\Aqua11A1");
+		lstData.writComparisonFile("D:\\etsii\\pfc\\datos\\Aqua11A1");
 		
 //		ModisLoader loader = new ModisLoader();
 //		loader.openFile(dir.getAbsolutePath() + "\\" + children[0]);
